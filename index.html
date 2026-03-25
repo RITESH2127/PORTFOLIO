@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Portfolio of Ritesh Kumar - AI & ML Engineer">
+    <title>Ritesh Kumar | Intelligent Systems Architecture</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        void: 'rgb(var(--color-void) / <alpha-value>)',
+                        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                        border: 'rgb(var(--color-border) / <alpha-value>)',
+                        main: 'rgb(var(--color-text-main) / <alpha-value>)',
+                        muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
+                        lighter: 'rgb(var(--color-text-lighter) / <alpha-value>)',
+                        inverse: 'rgb(var(--color-text-inverse) / <alpha-value>)',
+                        neon: {
+                            cyan: 'rgb(var(--neon-cyan) / <alpha-value>)',
+                            violet: 'rgb(var(--neon-violet) / <alpha-value>)',
+                            pink: 'rgb(var(--neon-pink) / <alpha-value>)',
+                            gold: 'rgb(var(--neon-gold) / <alpha-value>)'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+
+    <div id="easter-terminal">
+        <div class="term-output" id="term-output">
+            LOGIN SUCCESSFUL.
+            WELCOME TO THE RITESH.OS BACKDOOR.
+            TYPE 'help' FOR A LIST OF COMMANDS.
+            PRESS '~' OR 'ESC' TO EXIT.
+        </div>
+        <div class="term-input-line">
+            <span class="term-prompt">root@ritesh-sys:~#</span>
+            <input type="text" id="term-input" autocomplete="off" spellcheck="false" autofocus>
+        </div>
+    </div>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <div id="preloader">
+        <div class="text-neon-cyan font-mono text-sm tracking-[0.3em] mb-4 animate-pulse font-bold">INITIATING_SYSTEM</div>
+        <div class="text-muted font-mono text-xs" id="loading-text">> resolving dependencies [■■■■■■■■■□] 90%</div>
+        <div class="loader-bar"></div>
+    </div>
+
+    <canvas id="neural-canvas"></canvas>
+
+    <nav class="fixed top-0 w-full z-50 glass-premium">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="#about" class="text-2xl font-bold font-mono tracking-tighter text-main hover:text-neon-cyan transition drop-shadow-[0_0_8px_rgba(var(--neon-cyan),0.6)] interactive section-link" data-section="ROOT">
+                &lt;RK /&gt;
+            </a>
+
+            <div class="hidden md:flex space-x-8 text-xs font-bold text-muted font-mono tracking-widest uppercase items-center">
+                <a href="#about" class="hover:text-neon-cyan transition interactive section-link" data-section="CORE">Core</a>
+                <a href="#skills" class="hover:text-neon-cyan transition interactive section-link" data-section="STACK">Stack</a>
+                <a href="#projects" class="hover:text-neon-cyan transition interactive section-link" data-section="DEPLOY">Deployments</a>
+                <a href="#achievements" class="hover:text-neon-cyan transition interactive text-neon-cyan section-link drop-shadow-[0_0_5px_rgba(var(--neon-cyan),0.4)]" data-section="AWARDS">Awards</a>
+                <a href="#experience" class="hover:text-neon-cyan transition interactive section-link" data-section="EXP">Experience</a>
+                <a href="#education" class="hover:text-neon-cyan transition interactive section-link" data-section="EDU">Education</a>
+                
+                <button id="theme-toggle-desktop" class="text-main hover:text-neon-cyan transition ml-2 text-lg focus:outline-none interactive w-10 h-10 rounded-full bg-main/5 flex items-center justify-center border border-main/10 hover:border-neon-cyan/50" data-action="THEME_TOGGLE">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:inline text-neon-gold"></i>
+                </button>
+
+                <a href="#contact" class="px-7 py-2.5 rounded-md border border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-inverse transition shadow-[0_0_20px_rgba(var(--neon-cyan),0.2)] hover:shadow-[0_0_30px_rgba(var(--neon-cyan),0.5)] ml-4 interactive magnetic-btn section-link" data-section="INIT">
+                    Initialize
+                </a>
+            </div>
+
+            <div class="flex md:hidden items-center gap-5">
+                <button id="theme-toggle-mobile" class="text-main text-lg focus:outline-none interactive">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:inline text-neon-gold"></i>
+                </button>
+                <button id="mobile-menu-btn" class="text-main text-2xl focus:outline-none interactive">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-surface/95 backdrop-blur-2xl border-b border-main/10 py-6 shadow-2xl flex flex-col items-center gap-6 font-mono text-sm uppercase tracking-widest transition-all">
+            <a href="#about" class="text-main hover:text-neon-cyan transition w-full text-center py-2 interactive section-link mobile-link" data-section="CORE">Core</a>
+            <a href="#skills" class="text-main hover:text-neon-cyan transition w-full text-center py-2 interactive section-link mobile-link" data-section="STACK">Stack</a>
+            <a href="#projects" class="text-main hover:text-neon-cyan transition w-full text-center py-2 interactive section-link mobile-link" data-section="DEPLOY">Deployments</a>
+            <a href="#achievements" class="text-neon-cyan hover:text-neon-cyan transition w-full text-center py-2 interactive section-link mobile-link" data-section="AWARDS">Awards</a>
+            <a href="#experience" class="text-main hover:text-neon-cyan transition w-full text-center py-2 interactive section-link mobile-link" data-section="EXP">Experience</a>
+            <a href="#education" class="text-main hover:text-neon-cyan transition w-full text-center py-2 interactive section-link mobile-link" data-section="EDU">Education</a>
+            <a href="#contact" class="mt-2 px-8 py-3 rounded border border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-inverse transition interactive section-link mobile-link" data-section="INIT">Initialize</a>
+        </div>
+    </nav>
+
+    <section id="about" class="min-h-screen flex items-center px-4 md:px-6 relative z-10 pt-32 md:pt-24 overflow-hidden" data-obs-section="CORE">
+        <div class="max-w-7xl w-full mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            <div data-aos="fade-right" data-aos-duration="1400" class="relative z-10">
+                <div class="absolute -left-20 top-20 w-[500px] h-[500px] bg-neon-cyan/15 blur-[150px] rounded-full pointer-events-none z-[-1]"></div>
+
+                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-premium border border-neon-cyan/40 text-neon-cyan text-xs font-mono mb-8 shadow-[0_0_20px_rgba(var(--neon-cyan),0.15)]">
+                    <span class="w-2 h-2 rounded-full bg-neon-cyan animate-ping absolute"></span>
+                    <span class="w-2 h-2 rounded-full bg-neon-cyan relative"></span>
+                    <span class="font-bold tracking-wider uppercase">CONNECTION ESTABLISHED</span>
+                </div>
+
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-terminal text-neon-pink text-sm animate-pulse"></i>
+                    <h2 class="text-lighter font-mono text-xs md:text-sm tracking-[0.25em] uppercase border-b border-neon-cyan/30 pb-1 font-semibold">
+                        Welcome to the digital workspace of
+                    </h2>
+                </div>
+
+                <h1 class="text-5xl sm:text-7xl md:text-[6rem] lg:text-[7.5rem] font-black mb-4 leading-none tracking-tighter flex flex-col relative z-10 drop-shadow-2xl">
+                    <span class="hero-name-first pb-1 glitch-text" data-text="RITESH">RITESH</span>
+                    <span class="hero-name-last pb-2 glitch-text" data-text="KUMAR">KUMAR</span>
+                </h1>
+
+                <div class="text-lg sm:text-xl md:text-2xl text-lighter mb-8 font-mono font-light tracking-wide border-l-[3px] border-neon-cyan pl-5 h-[32px] flex items-center bg-gradient-to-r from-neon-cyan/5 to-transparent py-6 rounded-r-lg">
+                    > Architecting&nbsp;<span id="typed" class="text-neon-cyan font-bold drop-shadow-[0_0_10px_rgba(var(--neon-cyan),0.5)]"></span>
+                </div>
+
+                <p class="text-muted text-base sm:text-xl leading-relaxed mb-10 max-w-xl font-light">
+                    Step into my architecture. I am an elite <strong class="text-main font-semibold">AI & Machine Learning Engineer</strong> transforming complex data mathematics into high-performance, autonomous production systems. Specializing in Deep Learning, NLP, and scalable logic.
+                </p>
+
+                <div class="flex flex-col sm:flex-row flex-wrap gap-5 font-mono text-sm">
+                    <a href="#contact" class="px-8 py-4 bg-neon-cyan magnetic-btn text-inverse font-bold rounded-md hover:bg-main hover:text-inverse transition shadow-[0_0_30px_rgba(var(--neon-cyan),0.4)] hover:shadow-[0_0_40px_rgba(var(--color-text-main),0.5)] flex items-center justify-center gap-3 interactive" data-action="BTN_INIT">
+                        <i class="fas fa-bolt text-lg"></i> Initialize Handshake
+                    </a>
+                    <a href="./Ritesh_Kumar_FAANG_Single_Column_Final.pdf" target="_blank" class="px-8 py-4 glass-premium magnetic-btn rounded-md font-bold text-main hover:text-neon-pink transition border border-main/10 flex items-center justify-center gap-3 hover:border-neon-pink/50 interactive" data-action="DL_PAYLOAD">
+                        <i class="fas fa-file-arrow-down text-lg"></i> Extract Payload
+                    </a>
+                </div>
+            </div>
+
+            <div class="hidden lg:flex justify-center items-center relative h-[550px] w-full" data-aos="fade-left" data-aos-duration="1400">
+                <div class="absolute inset-0 bg-gradient-to-tr from-neon-cyan to-neon-violet rounded-full blur-[140px] opacity-15 animate-pulse"></div>
+                
+                <div class="glass-premium live-terminal-wrapper rounded-2xl w-full max-w-lg h-full flex flex-col relative z-10 border-main/15" data-tilt data-tilt-max="4" data-tilt-glare="true" data-tilt-max-glare="0.2" data-tilt-speed="400">
+                    
+                    <div class="term-header px-5 py-4 flex items-center justify-between rounded-t-2xl z-20">
+                        <div class="flex gap-2">
+                            <div class="w-3.5 h-3.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></div>
+                            <div class="w-3.5 h-3.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)]"></div>
+                            <div class="w-3.5 h-3.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                        </div>
+                        <div class="font-mono text-[11px] text-main font-bold tracking-[0.2em] opacity-80">RITESH.OS // SYSTEM_MONITOR</div>
+                        <div class="flex gap-3 text-main opacity-80">
+                            <i class="fas fa-wifi text-[12px]"></i>
+                            <i class="fas fa-battery-full text-[12px]"></i>
+                        </div>
+                    </div>
+
+                    <div id="terminal-body" class="flex-1 p-6 font-mono text-xs rounded-b-2xl relative z-10 overflow-hidden flex flex-col">
+                        <div class="opacity-80 mb-5 pb-5 border-b border-main/10">
+                            <div class="text-neon-cyan font-bold tracking-widest mb-1 text-sm shadow-neon-cyan">RK_ARCHITECTURE_KERNEL_v4.2</div>
+                            <div class="text-muted text-[11px]">Last login: <span id="term-date" class="text-main font-semibold"></span> on console</div>
+                        </div>
+                        
+                        <div id="terminal-logs" class="space-y-2.5 flex-1 overflow-y-auto pr-2"></div>
+                        <div class="mt-3 text-main flex items-center opacity-90 border-t border-main/10 pt-3">
+                            <span class="text-neon-pink font-bold mr-2 text-sm drop-shadow-[0_0_5px_rgba(var(--neon-pink),0.6)]">root@sys:~#</span> <span class="blinking-cursor"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute -right-8 top-1/4 glass-premium px-5 py-2.5 rounded-lg border-neon-cyan/40 font-mono text-xs text-main shadow-[0_15px_30px_rgba(0,0,0,0.15)] flex items-center gap-3 z-20 animate-[floatLux_6s_ease-in-out_infinite] font-semibold backdrop-blur-3xl">
+                    <span class="w-2 h-2 rounded-full bg-neon-cyan animate-pulse shadow-[0_0_10px_rgb(var(--neon-cyan))]"></span>
+                    Observer Active
+                </div>
+                <div class="absolute -left-10 bottom-1/3 glass-premium px-5 py-2.5 rounded-lg border-neon-violet/40 font-mono text-xs text-main shadow-[0_15px_30px_rgba(0,0,0,0.15)] flex items-center gap-3 z-20 animate-[floatBadge_7s_ease-in-out_infinite] font-semibold backdrop-blur-3xl">
+                    <i class="fas fa-shield-alt text-neon-violet text-sm"></i>
+                    Secure Protocol
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-container w-screen relative -ml-6">
+        <div class="marquee-content">
+            <span><i class="fab fa-python"></i> Python</span>
+            <span><i class="fas fa-brain"></i> TensorFlow</span>
+            <span><i class="fas fa-fire"></i> PyTorch</span>
+            <span><i class="fas fa-database"></i> SQL</span>
+            <span><i class="fas fa-chart-pie"></i> Pandas</span>
+            <span><i class="fas fa-language"></i> NLP / NLTK</span>
+            <span><i class="fas fa-sitemap"></i> Data Structures</span>
+            <span><i class="fab fa-html5"></i> Web Dev</span>
+            <span><i class="fab fa-python"></i> Python</span>
+            <span><i class="fas fa-brain"></i> TensorFlow</span>
+            <span><i class="fas fa-fire"></i> PyTorch</span>
+            <span><i class="fas fa-database"></i> SQL</span>
+            <span><i class="fas fa-chart-pie"></i> Pandas</span>
+            <span><i class="fas fa-language"></i> NLP / NLTK</span>
+            <span><i class="fas fa-sitemap"></i> Data Structures</span>
+            <span><i class="fab fa-html5"></i> Web Dev</span>
+        </div>
+    </div>
+
+    <section id="skills" class="py-24 md:py-36 relative z-10" data-obs-section="STACK">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="flex items-center gap-4 mb-3 justify-center" data-aos="fade-up">
+                <div class="w-12 h-[2px] bg-neon-cyan opacity-80"></div>
+                <h2 class="text-xs md:text-sm font-mono text-neon-cyan tracking-widest uppercase text-center font-bold">System Parameters</h2>
+                <div class="w-12 h-[2px] bg-neon-cyan opacity-80"></div>
+            </div>
+            <h3 class="text-4xl md:text-6xl font-black mb-16 md:mb-24 text-center text-main" data-aos="fade-up" data-aos-delay="100">
+                Technical <span class="text-gradient-cyan">Arsenal</span>
+            </h3>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+                <div class="glass-premium p-8 rounded-3xl interactive group" data-aos="fade-up" data-aos-delay="0" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="SCAN_DL">
+                    <div class="glass-content pointer-events-none">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-neon-violet/10 flex items-center justify-center text-neon-violet text-3xl mb-8 shadow-[0_0_30px_rgba(var(--neon-violet),0.2)] border border-neon-violet/30 group-hover:scale-110 group-hover:bg-neon-violet/20 transition-all duration-500">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-main mb-5 font-mono">Deep Learning</h4>
+                        <div class="flex flex-wrap gap-2.5 text-xs font-mono font-semibold">
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main group-hover:border-neon-violet/40 transition-colors">TensorFlow</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main group-hover:border-neon-violet/40 transition-colors">PyTorch</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">Scikit-Learn</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">Keras</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium p-8 rounded-3xl interactive group" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="SCAN_NLP">
+                    <div class="glass-content pointer-events-none">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-neon-cyan/10 flex items-center justify-center text-neon-cyan text-3xl mb-8 shadow-[0_0_30px_rgba(var(--neon-cyan),0.2)] border border-neon-cyan/30 group-hover:scale-110 group-hover:bg-neon-cyan/20 transition-all duration-500">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-main mb-5 font-mono">NLP & Vision</h4>
+                        <div class="flex flex-wrap gap-2.5 text-xs font-mono font-semibold">
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main group-hover:border-neon-cyan/40 transition-colors">NLTK</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">OpenCV</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">LLMs</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">CNNs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium p-8 rounded-3xl interactive group" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="SCAN_DATA">
+                    <div class="glass-content pointer-events-none">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-neon-pink/10 flex items-center justify-center text-neon-pink text-3xl mb-8 shadow-[0_0_30px_rgba(var(--neon-pink),0.2)] border border-neon-pink/30 group-hover:scale-110 group-hover:bg-neon-pink/20 transition-all duration-500">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-main mb-5 font-mono">Data Science</h4>
+                        <div class="flex flex-wrap gap-2.5 text-xs font-mono font-semibold">
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main group-hover:border-neon-pink/40 transition-colors">Pandas</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main group-hover:border-neon-pink/40 transition-colors">SQL</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">NumPy</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">EDA</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium p-8 rounded-3xl interactive group" data-aos="fade-up" data-aos-delay="300" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="SCAN_CORE">
+                    <div class="glass-content pointer-events-none">
+                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-main/10 flex items-center justify-center text-main text-3xl mb-8 shadow-[0_0_30px_rgba(var(--color-text-main),0.1)] border border-main/30 group-hover:scale-110 group-hover:bg-main/20 transition-all duration-500">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-main mb-5 font-mono">Core & Web</h4>
+                        <div class="flex flex-wrap gap-2.5 text-xs font-mono font-semibold">
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main group-hover:border-main/40 transition-colors">DSA</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">Python/C++</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">Streamlit</span>
+                            <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted group-hover:text-main transition-colors">DBMS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 md:py-36 relative z-10 border-y border-main/10 bg-surface/40 backdrop-blur-md" data-obs-section="DEPLOY">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="flex items-center gap-4 mb-3 justify-center" data-aos="fade-up">
+                <div class="w-12 h-[2px] bg-neon-violet opacity-80"></div>
+                <h2 class="text-xs md:text-sm font-mono text-neon-violet tracking-widest uppercase text-center font-bold">Production Env</h2>
+                <div class="w-12 h-[2px] bg-neon-violet opacity-80"></div>
+            </div>
+            <h3 class="text-4xl md:text-6xl font-black mb-16 md:mb-24 text-center text-main" data-aos="fade-up" data-aos-delay="100">
+                Featured <span class="text-gradient-violet">Deployments</span>
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-10 md:gap-12">
+
+                <div class="glass-premium rounded-[2rem] overflow-hidden group flex flex-col md:col-span-2 relative border-neon-cyan/40 hover:border-neon-cyan/80 transition-colors duration-500 interactive shadow-2xl" data-aos="fade-up" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.1" data-action="VIEW_PROJ_DOC">
+                    <div class="absolute -right-32 -top-32 w-96 h-96 bg-neon-cyan/20 blur-[120px] rounded-full pointer-events-none"></div>
+                    <div class="glass-content flex flex-col lg:flex-row h-full">
+                        <div class="lg:w-1/2 p-10 md:p-16 relative z-10 flex flex-col justify-center">
+                            <div class="flex items-center gap-3 mb-6 text-xs font-mono font-bold">
+                                <span class="px-4 py-2 bg-neon-cyan/15 text-neon-cyan border border-neon-cyan/40 rounded-md animate-pulse shadow-[0_0_20px_rgba(var(--neon-cyan),0.3)]"><i class="fas fa-satellite-dish mr-2"></i>Flagship Pipeline</span>
+                            </div>
+                            <h4 class="text-3xl md:text-5xl font-black text-main mb-6 leading-tight tracking-tight">AI-Powered Doc Assistant & Quiz Gen</h4>
+                            <p class="text-muted mb-8 leading-relaxed text-base md:text-lg font-medium">
+                                An enterprise-grade Natural Language Processing agent engineered to digest complex documents, synthesize deep context, and autonomously generate intelligent assessments and queries.
+                            </p>
+                            <div class="flex flex-wrap gap-3 font-mono text-xs font-bold mb-10">
+                                <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-neon-violet">NLP</span>
+                                <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-main">NLTK</span>
+                                <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-neon-cyan">Python</span>
+                                <span class="px-3.5 py-2 bg-main/5 border border-main/10 rounded-md text-muted">Machine Learning</span>
+                            </div>
+                            <a href="https://github.com/RITESH2127" target="_blank" class="inline-flex items-center justify-center gap-3 text-main hover:text-inverse transition font-mono text-sm font-bold border border-main/20 px-8 py-4 rounded-md bg-main/5 hover:bg-neon-cyan hover:border-neon-cyan w-full md:w-max shadow-lg">
+                                <i class="fab fa-github text-xl"></i> View Source Architecture
+                            </a>
+                        </div>
+                        <div class="lg:w-1/2 relative overflow-hidden h-72 lg:h-auto border-t lg:border-t-0 lg:border-l border-main/10">
+                            <div class="img-overlay"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-[rgb(var(--color-surface))] via-transparent to-transparent z-10 opacity-80"></div>
+                            <img src="https://images.unsplash.com/photo-1676299081847-824916de030a?q=80&w=1000&auto=format&fit=crop" alt="AI Interface" class="w-full h-full object-cover group-hover:scale-105 transition duration-1000 ease-out img-blend">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl overflow-hidden group flex flex-col interactive shadow-xl" data-aos="fade-up" data-tilt data-tilt-max="4" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="VIEW_PROJ_EMOTION">
+                    <div class="h-64 md:h-72 relative overflow-hidden border-b border-main/10">
+                        <div class="img-overlay"></div>
+                        <div class="absolute inset-0 bg-neon-violet/20 mix-blend-overlay z-10 group-hover:bg-transparent transition duration-700 pointer-events-none"></div>
+                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=600&auto=format&fit=crop" alt="Computer Vision" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000 ease-out grayscale group-hover:grayscale-0 img-blend">
+                    </div>
+                    <div class="p-8 md:p-10 flex-1 flex flex-col relative z-10 glass-content">
+                        <h3 class="text-2xl md:text-3xl font-bold text-main mb-4 tracking-tight">Real-Time Emotion Recognition</h3>
+                        <p class="text-muted mb-8 flex-1 leading-relaxed text-base font-medium">Advanced Computer Vision pipeline utilizing CNNs and OpenCV to detect and precisely classify facial emotions in real-time video streams.</p>
+                        <div class="flex justify-between items-center pt-6 border-t border-main/10">
+                            <span class="text-neon-violet font-mono text-xs font-bold bg-neon-violet/15 border border-neon-violet/40 px-3.5 py-2 rounded-md">OpenCV / CNN</span>
+                            <a href="https://github.com/RITESH2127" target="_blank" class="text-muted hover:text-main transition transform hover:scale-110"><i class="fab fa-github text-3xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl overflow-hidden group flex flex-col interactive shadow-xl" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="4" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="VIEW_PROJ_HOUSE">
+                    <div class="h-64 md:h-72 relative overflow-hidden border-b border-main/10">
+                        <div class="img-overlay"></div>
+                        <div class="absolute inset-0 bg-neon-cyan/20 mix-blend-overlay z-10 group-hover:bg-transparent transition duration-700 pointer-events-none"></div>
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" alt="Regression Model" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000 ease-out grayscale group-hover:grayscale-0 img-blend">
+                    </div>
+                    <div class="p-8 md:p-10 flex-1 flex flex-col relative z-10 glass-content">
+                        <h3 class="text-2xl md:text-3xl font-bold text-main mb-4 tracking-tight">House Price Predictor</h3>
+                        <p class="text-muted mb-8 flex-1 leading-relaxed text-base font-medium">Robust regression ecosystem (Linear/Ridge/Lasso) featuring comprehensive data preprocessing. Deployed seamlessly via Streamlit.</p>
+                        <div class="flex justify-between items-center pt-6 border-t border-main/10">
+                            <span class="text-neon-cyan font-mono text-xs font-bold bg-neon-cyan/15 border border-neon-cyan/40 px-3.5 py-2 rounded-md">R² > 0.73</span>
+                            <a href="https://github.com/RITESH2127" target="_blank" class="text-muted hover:text-main transition transform hover:scale-110"><i class="fab fa-github text-3xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl overflow-hidden group flex flex-col md:col-span-2 lg:w-4/5 mx-auto interactive shadow-2xl" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-glare="true" data-tilt-max-glare="0.15" data-action="VIEW_PROJ_CHURN">
+                    <div class="h-56 md:h-64 relative overflow-hidden border-b border-main/10">
+                        <div class="img-overlay"></div>
+                        <div class="absolute inset-0 bg-neon-pink/20 mix-blend-overlay z-10 group-hover:bg-transparent transition duration-700 pointer-events-none"></div>
+                        <img src="https://images.unsplash.com/photo-1551808525-51a94da548ce?q=80&w=800&auto=format&fit=crop" alt="Classification AI" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000 ease-out grayscale group-hover:grayscale-0 img-blend">
+                    </div>
+                    <div class="p-8 md:p-12 flex-1 flex flex-col relative z-10 glass-content text-center items-center justify-center">
+                        <h3 class="text-2xl md:text-4xl font-bold text-main mb-4 tracking-tight">Customer Churn AI</h3>
+                        <p class="text-muted mb-8 flex-1 leading-relaxed text-base md:text-lg font-medium max-w-2xl">Classification engine using Random Forest methodologies. Implemented heavy optimization techniques to counter severe class imbalance.</p>
+                        <div class="flex justify-center gap-6 items-center pt-6 border-t border-main/10 w-full max-w-sm">
+                            <span class="text-neon-pink font-mono text-xs font-bold bg-neon-pink/15 border border-neon-pink/40 px-4 py-2 rounded-md">Acc: 85%</span>
+                            <a href="https://github.com/RITESH2127" target="_blank" class="text-muted hover:text-main transition transform hover:scale-110"><i class="fab fa-github text-3xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements" class="py-24 md:py-36 relative z-10" data-obs-section="AWARDS">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="flex items-center gap-4 mb-3 justify-center" data-aos="fade-up">
+                <div class="w-12 h-[2px] bg-neon-gold opacity-80"></div>
+                <h2 class="text-xs md:text-sm font-mono text-neon-gold tracking-widest uppercase text-center font-bold">Elite Recognitions</h2>
+                <div class="w-12 h-[2px] bg-neon-gold opacity-80"></div>
+            </div>
+            <h3 class="text-4xl md:text-6xl font-black mb-16 md:mb-24 text-center text-main" data-aos="fade-up" data-aos-delay="100">
+                Honors & <span class="text-gradient-gold">Certifications</span>
+            </h3>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+
+                <div class="glass-premium gold-panel rounded-[2rem] overflow-hidden group md:col-span-2 lg:col-span-3 relative bg-neon-gold/5 border-neon-gold/40 interactive shadow-2xl" data-aos="zoom-in" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="AWARD_AUTO_DAY">
+                    <div class="absolute -right-32 -top-32 w-[600px] h-[600px] bg-neon-gold/15 blur-[150px] rounded-full pointer-events-none"></div>
+                    <div class="glass-content p-10 md:p-16 flex flex-col md:flex-row items-center gap-10 md:gap-14 relative z-10">
+                        <div class="w-28 h-28 md:w-40 md:h-40 rounded-full bg-neon-gold/10 border border-neon-gold/50 flex items-center justify-center text-neon-gold text-6xl md:text-7xl shadow-[0_0_40px_rgba(var(--neon-gold),0.4)] shrink-0 group-hover:scale-110 transition-transform duration-700 ease-out">
+                            <i class="fas fa-trophy drop-shadow-[0_0_15px_rgba(var(--neon-gold),0.8)]"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <div class="flex flex-wrap justify-center md:justify-start items-center gap-4 mb-5 font-mono text-xs text-neon-gold font-bold">
+                                <span class="bg-neon-gold/20 px-5 py-2 rounded-md border border-neon-gold/60 shadow-[0_0_15px_rgba(var(--neon-gold),0.3)]">🥇 1st Prize Winner</span>
+                                <span class="bg-main/5 px-5 py-2 rounded-md border border-main/10 text-main">ISA Delhi Section & BVCOE</span>
+                            </div>
+                            <h4 class="text-3xl md:text-5xl font-black text-main mb-5 tracking-tight">Automation Day 2025 (BVEST-12)</h4>
+                            <p class="text-lighter leading-relaxed text-lg md:text-xl font-medium">
+                                Secured the absolute <strong>1st Position</strong> in the highly competitive "INNOVATE AND AUTOMATE" event. Awarded for demonstrating outstanding engineering skills in PLC and showcasing an exceptional autonomous project that set a new benchmark for quality and innovation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl overflow-hidden group md:col-span-2 relative bg-neon-cyan/5 border-neon-cyan/30 hover:border-neon-cyan/70 transition-colors interactive shadow-xl" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="AWARD_AGENTIC">
+                    <div class="absolute -left-32 -bottom-32 w-[500px] h-[500px] bg-neon-cyan/15 blur-[120px] rounded-full pointer-events-none"></div>
+                    <div class="glass-content p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10 h-full">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neon-cyan/10 border border-neon-cyan/40 flex items-center justify-center text-neon-cyan text-5xl md:text-6xl shadow-[0_0_30px_rgba(var(--neon-cyan),0.3)] shrink-0 group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 mb-4 font-mono text-xs text-neon-cyan font-bold">
+                                <span class="bg-neon-cyan/20 px-4 py-1.5 rounded-md border border-neon-cyan/50">🏅 4th Position</span>
+                                <span class="bg-main/5 px-4 py-1.5 rounded-md border border-main/10 text-main">IEEE MAIT (E-Summit '26)</span>
+                            </div>
+                            <h4 class="text-2xl md:text-4xl font-bold text-main mb-4 tracking-tight">Agentic AI Hackathon</h4>
+                            <p class="text-lighter leading-relaxed text-base md:text-lg font-medium">
+                                Secured <strong>4th Position</strong> with team <em>'EDGE RUNNERS'</em>. Showcased exceptional problem-solving and rapid development by engineering a highly capable autonomous AI agent within a high-pressure competitive environment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-neon-violet/50 transition-colors h-full interactive shadow-xl" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="CERT_FLUENCY">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-16 h-16 rounded-2xl bg-neon-violet/10 border border-neon-violet/30 flex items-center justify-center text-neon-violet text-3xl mb-6 shadow-[0_0_20px_rgba(var(--neon-violet),0.2)] group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-main mb-3">AI Fluency Certification</h4>
+                        <p class="text-muted text-base leading-relaxed mb-8 font-medium">Successfully completed the intensive 'AI Fluency for students' program, supported by industry pioneers like Anthropic and UCC.</p>
+                        <div class="font-mono text-xs font-bold text-neon-violet bg-neon-violet/15 border border-neon-violet/40 px-3.5 py-2 rounded-md mt-auto">Anthropic / UCC</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl overflow-hidden group md:col-span-2 relative bg-neon-gold/5 border-neon-gold/30 hover:border-neon-gold/70 transition-colors interactive shadow-xl" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="AWARD_ZOMATHON">
+                    <div class="absolute -left-32 -bottom-32 w-[500px] h-[500px] bg-neon-gold/15 blur-[120px] rounded-full pointer-events-none"></div>
+                    <div class="glass-content p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10 h-full">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neon-gold/10 border border-neon-gold/40 flex items-center justify-center text-neon-gold text-5xl md:text-6xl shadow-[0_0_30px_rgba(var(--neon-gold),0.3)] shrink-0 group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 mb-4 font-mono text-xs text-neon-gold font-bold">
+                                <span class="bg-neon-gold/20 px-4 py-1.5 rounded-md border border-neon-gold/50">🏆 Data Hackathon</span>
+                                <span class="bg-main/5 px-4 py-1.5 rounded-md border border-main/10 text-main">Coding Ninjas x Eternal</span>
+                            </div>
+                            <h4 class="text-2xl md:text-4xl font-bold text-main mb-4 tracking-tight">Zomathon</h4>
+                            <p class="text-lighter leading-relaxed text-base md:text-lg font-medium">
+                                Actively participated in Zomathon - The Data Hackathon. Demonstrated advanced analytical thinking, collaborative problem-solving, and data-driven decision making.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-neon-pink/50 transition-colors h-full interactive shadow-xl" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2" data-action="CERT_ESCAPE">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-16 h-16 rounded-2xl bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink text-3xl mb-6 shadow-[0_0_20px_rgba(var(--neon-pink),0.2)] group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-main mb-3">Ctrl + Alt + Escape</h4>
+                        <p class="text-muted text-base leading-relaxed mb-8 font-medium">Successfully participated in the intensive technical event conducted by IEEE BVCOE - WIE.</p>
+                        <div class="font-mono text-xs font-bold text-neon-pink bg-neon-pink/15 border border-neon-pink/40 px-3.5 py-2 rounded-md mt-auto">IEEE BVCOE / Feb 2025</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-green-400/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 text-2xl mb-6 shadow-[0_0_20px_rgba(34,197,94,0.2)] group-hover:scale-110 transition-transform">
+                            <i class="fab fa-hackerrank"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">HackTheRank Event</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Recognized for successful participation and demonstration of elite coding and algorithmic skills in the online coding challenge.</p>
+                        <div class="font-mono text-xs font-bold text-green-400 bg-green-500/15 border border-green-500/40 px-3 py-1.5 rounded-md mt-auto">HackerRank</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-neon-cyan/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-2xl mb-6 shadow-[0_0_20px_rgba(var(--neon-cyan),0.2)] group-hover:scale-110 transition-transform">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">BVCOE Coders Cup</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Competed in the premier competitive programming and Data Structures & Algorithms competition, showcasing advanced optimization strategies.</p>
+                        <div class="font-mono text-xs font-bold text-neon-cyan bg-neon-cyan/15 border border-neon-cyan/40 px-3 py-1.5 rounded-md mt-auto">CP & DSA</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-green-400/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 text-2xl mb-6 shadow-[0_0_20px_rgba(34,197,94,0.2)] group-hover:scale-110 transition-transform">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">Jam the Web</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Participated in an intense full-stack web development challenge organized by the esteemed GeeksforGeeks Student Chapter.</p>
+                        <div class="font-mono text-xs font-bold text-green-400 bg-green-500/15 border border-green-500/40 px-3 py-1.5 rounded-md mt-auto">GFG / Web Dev</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-blue-400/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 text-2xl mb-6 shadow-[0_0_20px_rgba(96,165,250,0.2)] group-hover:scale-110 transition-transform">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">LogicRush Hackathon</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Competed in "LogicRush – Where Ideas Turn Into INNOVATION," a demanding problem-solving hackathon organized by ADGITM.</p>
+                        <div class="font-mono text-xs font-bold text-blue-400 bg-blue-500/15 border border-blue-500/40 px-3 py-1.5 rounded-md mt-auto">Unstop / ADGITM</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-neon-pink/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink text-2xl mb-6 shadow-[0_0_20px_rgba(var(--neon-pink),0.2)] group-hover:scale-110 transition-transform">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">Code Debugging Challenge</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Showcased deep technical problem-solving and rapid debugging logic in the specialized competition hosted by Tech Shuttle Club.</p>
+                        <div class="font-mono text-xs font-bold text-neon-pink bg-neon-pink/15 border border-neon-pink/40 px-3 py-1.5 rounded-md mt-auto">Tech Shuttle Club</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-main/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-main/10 border border-main/30 flex items-center justify-center text-main text-2xl mb-6 shadow-[0_0_20px_rgba(var(--color-text-main),0.1)] group-hover:scale-110 transition-transform">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">Machine Learning Skill Up</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Achieved comprehensive certification in Machine Learning, validating rigorous training and practical implementations via GeeksforGeeks.</p>
+                        <div class="font-mono text-xs font-bold text-main bg-main/10 border border-main/30 px-3 py-1.5 rounded-md mt-auto">GeeksforGeeks</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-8 flex flex-col group hover:border-neon-violet/50 transition-colors h-full interactive shadow-lg" data-aos="fade-up" data-tilt data-tilt-max="5" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="glass-content h-full flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-neon-violet/10 border border-neon-violet/30 flex items-center justify-center text-neon-violet text-2xl mb-6 shadow-[0_0_20px_rgba(var(--neon-violet),0.2)] group-hover:scale-110 transition-transform">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-main mb-3">Industrial Core Training</h4>
+                        <p class="text-muted text-sm leading-relaxed mb-6 font-medium">Completed advanced immersions focusing on Generative AI (DUCAT) and Enterprise Network Architecture & Routing (Network Bulls).</p>
+                        <div class="font-mono text-xs font-bold text-neon-violet bg-neon-violet/15 border border-neon-violet/40 px-3 py-1.5 rounded-md mt-auto">DUCAT / Network Bulls</div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl overflow-hidden group md:col-span-2 relative bg-neon-gold/5 border-neon-gold/30 hover:border-neon-gold/60 transition-colors interactive shadow-xl" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.2">
+                    <div class="absolute -right-20 -bottom-20 w-[400px] h-[400px] bg-neon-gold/15 blur-[120px] rounded-full pointer-events-none"></div>
+                    <div class="glass-content p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 relative z-10 h-full text-center md:text-left">
+                        <div class="w-24 h-24 rounded-full bg-neon-gold/10 border border-neon-gold/50 flex items-center justify-center text-neon-gold text-4xl shadow-[0_0_30px_rgba(var(--neon-gold),0.3)] shrink-0 group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl md:text-3xl font-bold text-main mb-3">Emotion-Aware Encryption Hackathon</h4>
+                            <p class="text-muted leading-relaxed text-base mb-5 font-medium">
+                                Explored the complex intersection of advanced emotion recognition algorithms and secure encryption systems during the highly technical hackathon conducted by UnsaidTalks Education.
+                            </p>
+                            <div class="font-mono text-xs font-bold text-neon-gold bg-neon-gold/15 border border-neon-gold/40 px-4 py-2 rounded-md w-max mx-auto md:mx-0">UnsaidTalks / Mar 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-premium rounded-3xl p-10 md:p-14 flex flex-col md:col-span-2 lg:col-span-3 border-t-4 border-t-neon-cyan bg-gradient-to-b from-neon-cyan/5 to-transparent hover:shadow-[0_0_40px_rgba(var(--neon-cyan),0.2)] transition-all group interactive shadow-2xl" data-aos="fade-up" data-tilt data-tilt-max="1" data-tilt-glare="true" data-tilt-max-glare="0.1">
+                    <div class="glass-content flex flex-col md:flex-row items-center gap-10 text-center md:text-left">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-neon-cyan/10 flex items-center justify-center text-neon-cyan text-4xl md:text-5xl shrink-0 shadow-[0_0_30px_rgba(var(--neon-cyan),0.3)] border border-neon-cyan/40 group-hover:scale-110 transition-transform duration-700 ease-out">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-3xl md:text-4xl font-bold text-main mb-4 tracking-tight">Technical Leadership & Event Organization</h4>
+                            <p class="text-lighter leading-relaxed mb-6 text-lg md:text-xl font-medium">
+                                Awarded multiple Certificates of Appreciation for spearheading and executing high-impact, large-scale technical and cultural events within the college ecosystem:
+                            </p>
+                            <div class="flex flex-col sm:flex-row flex-wrap justify-center md:justify-start gap-4 font-mono text-sm font-bold">
+                                <span class="px-5 py-2.5 bg-main/5 border border-main/10 rounded-md text-main shadow-md hover:border-neon-cyan/50 hover:bg-neon-cyan/5 transition-all">UXplore (MLSAC BVP)</span>
+                                <span class="px-5 py-2.5 bg-main/5 border border-main/10 rounded-md text-main shadow-md hover:border-neon-cyan/50 hover:bg-neon-cyan/5 transition-all">Ethnic 3.0 (Venuva)</span>
+                                <span class="px-5 py-2.5 bg-main/5 border border-main/10 rounded-md text-main shadow-md hover:border-neon-cyan/50 hover:bg-neon-cyan/5 transition-all">Digital Art & A.I Seminar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="py-24 md:py-36 relative z-10 bg-surface/30 border-y border-main/10 backdrop-blur-md" data-obs-section="EXP">
+        <div class="max-w-5xl mx-auto px-4 md:px-6">
+            <div class="flex items-center gap-4 mb-3 justify-center" data-aos="fade-up">
+                <div class="w-12 h-[2px] bg-main opacity-80"></div>
+                <h2 class="text-xs md:text-sm font-mono text-main tracking-widest uppercase text-center font-bold">Career Telemetry</h2>
+                <div class="w-12 h-[2px] bg-main opacity-80"></div>
+            </div>
+            <h3 class="text-4xl md:text-6xl font-black mb-20 md:mb-28 text-center text-main" data-aos="fade-up" data-aos-delay="100">
+                Industrial <span class="text-gradient-cyan">Experience</span>
+            </h3>
+
+            <div class="relative border-l-[3px] border-neon-cyan/30 pl-8 md:pl-16 space-y-16 md:space-y-20 ml-4 md:ml-0">
+
+                <div class="relative group interactive" data-aos="fade-up" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.1" data-action="EXP_GAIL">
+                    <div class="absolute -left-[45px] md:-left-[77px] top-0 w-7 h-7 md:w-10 md:h-10 rounded-full bg-void border-[3px] border-neon-cyan flex items-center justify-center shadow-[0_0_25px_rgba(var(--neon-cyan),0.8)] z-10 group-hover:scale-125 transition-transform duration-500 ease-out">
+                        <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-neon-cyan rounded-full animate-pulse shadow-[0_0_15px_rgb(var(--neon-cyan))]"></div>
+                    </div>
+                    <div class="glass-premium p-8 md:p-12 rounded-[2rem] glass-content border-neon-cyan/30 hover:border-neon-cyan/60 shadow-xl">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-8 gap-5 border-b border-main/10 pb-8">
+                            <div>
+                                <h4 class="text-3xl md:text-4xl font-black text-main tracking-tight">Machine Learning Intern</h4>
+                                <div class="text-neon-cyan font-mono text-lg md:text-xl mt-3 font-semibold">GAIL India Ltd.</div>
+                            </div>
+                            <span class="px-5 py-2.5 bg-neon-cyan/15 border border-neon-cyan/40 rounded-md font-mono text-sm font-bold text-neon-cyan w-max shadow-sm">Jul 2025 - Aug 2025</span>
+                        </div>
+                        <p class="text-lighter leading-relaxed mb-8 text-lg md:text-xl font-medium">
+                            Engineered a robust production-style House Price Prediction system. Optimized core algorithms including Linear, Ridge, and Lasso Regression to achieve an <strong>R² > 0.73</strong> and reduced overall RMSE by 10%. Conducted rigorous exploratory data analysis (EDA) and feature engineering on massive datasets. Deployed the inferential model as an interactive, low-latency web application using <strong>Streamlit</strong>.
+                        </p>
+                        <div class="flex flex-wrap gap-3 font-mono text-xs font-bold">
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Regression Modeling</span>
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Feature Engineering</span>
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Streamlit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group interactive" data-aos="fade-up" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.1" data-action="EXP_GDSC">
+                    <div class="absolute -left-[45px] md:-left-[77px] top-0 w-7 h-7 md:w-10 md:h-10 rounded-full bg-void border-[3px] border-neon-violet flex items-center justify-center shadow-[0_0_25px_rgba(var(--neon-violet),0.8)] z-10 group-hover:scale-125 transition-transform duration-500 ease-out">
+                        <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-neon-violet rounded-full animate-pulse shadow-[0_0_15px_rgb(var(--neon-violet))]"></div>
+                    </div>
+                    <div class="glass-premium p-8 md:p-12 rounded-[2rem] glass-content border-neon-violet/30 hover:border-neon-violet/60 shadow-xl">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-8 gap-5 border-b border-main/10 pb-8">
+                            <div>
+                                <h4 class="text-3xl md:text-4xl font-black text-main tracking-tight">Admin Exec & Volunteer</h4>
+                                <div class="text-neon-violet font-mono text-lg md:text-xl mt-3 font-semibold">Google Developer Student Clubs (GDSC)</div>
+                            </div>
+                            <span class="px-5 py-2.5 bg-neon-violet/15 border border-neon-violet/40 rounded-md font-mono text-sm font-bold text-neon-violet w-max shadow-sm">Sep 2024 - Present</span>
+                        </div>
+                        <p class="text-lighter leading-relaxed text-lg md:text-xl font-medium">
+                            Spearheaded technical workshops focused on AI, Machine Learning, and Full-Stack Web Development, training over <strong>100+ students</strong>. Architected and managed end-to-end hackathon logistics to foster a strong developer community. Cultivated a culture of peer-to-peer learning by mentoring junior developers in Data Structures and Algorithms.
+                        </p>
+                        <div class="flex flex-wrap gap-3 font-mono text-xs font-bold mt-8">
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Technical Mentorship</span>
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Hackathon Ops</span>
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Community Building</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group interactive" data-aos="fade-up" data-tilt data-tilt-max="2" data-tilt-glare="true" data-tilt-max-glare="0.1" data-action="EXP_VENUVA">
+                    <div class="absolute -left-[45px] md:-left-[77px] top-0 w-7 h-7 md:w-10 md:h-10 rounded-full bg-void border-[3px] border-neon-pink flex items-center justify-center shadow-[0_0_25px_rgba(var(--neon-pink),0.8)] z-10 group-hover:scale-125 transition-transform duration-500 ease-out">
+                        <div class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-neon-pink rounded-full animate-pulse shadow-[0_0_15px_rgb(var(--neon-pink))]"></div>
+                    </div>
+                    <div class="glass-premium p-8 md:p-12 rounded-[2rem] glass-content border-neon-pink/30 hover:border-neon-pink/60 shadow-xl">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-8 gap-5 border-b border-main/10 pb-8">
+                            <div>
+                                <h4 class="text-3xl md:text-4xl font-black text-main tracking-tight">Event Executive</h4>
+                                <div class="text-neon-pink font-mono text-lg md:text-xl mt-3 font-semibold">Venuva BVP</div>
+                            </div>
+                            <span class="px-5 py-2.5 bg-neon-pink/15 border border-neon-pink/40 rounded-md font-mono text-sm font-bold text-neon-pink w-max shadow-sm">Sep 2024 - Apr 2025</span>
+                        </div>
+                        <p class="text-lighter leading-relaxed text-lg md:text-xl font-medium">
+                            Directed a cross-functional team of 15+ members to flawlessly execute 10+ large-scale cultural and technical events, consistently achieving a footfall of <strong>500+ participants</strong>. Negotiated and successfully pitched to corporate sponsors, securing funding exceeding <strong>₹50,000</strong>.
+                        </p>
+                        <div class="flex flex-wrap gap-3 font-mono text-xs font-bold mt-8">
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Corporate Sponsorship</span>
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Budget Optimization</span>
+                            <span class="bg-main/5 border border-main/15 px-4 py-2 rounded-md text-main shadow-sm">Team Leadership</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="py-24 md:py-36 relative z-10" data-obs-section="EDU">
+        <div class="max-w-5xl mx-auto px-4 md:px-6">
+            <div class="flex items-center gap-4 mb-3 justify-center" data-aos="fade-up">
+                <div class="w-12 h-[2px] bg-main opacity-80"></div>
+                <h2 class="text-xs md:text-sm font-mono text-main tracking-widest uppercase text-center font-bold">Foundation</h2>
+                <div class="w-12 h-[2px] bg-main opacity-80"></div>
+            </div>
+            <h3 class="text-4xl md:text-6xl font-black mb-16 md:mb-24 text-center text-main" data-aos="fade-up" data-aos-delay="100">
+                Academic <span class="text-gradient-violet">Records</span>
+            </h3>
+
+            <div class="space-y-8 md:space-y-10">
+                <div class="glass-premium p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-start justify-between gap-8 border-l-8 border-neon-cyan interactive shadow-2xl" data-aos="fade-up">
+                    <div class="flex-1">
+                        <h4 class="text-2xl md:text-3xl font-black text-main font-mono mb-3">B.Tech in Computer Science</h4>
+                        <p class="text-neon-cyan text-lg md:text-xl mb-8 font-semibold">Bharati Vidyapeeth's College of Engineering (IPU)</p>
+                        <div class="text-base text-lighter leading-relaxed bg-surface/60 p-6 md:p-8 rounded-2xl border border-main/10 shadow-inner">
+                            <strong class="text-main block mb-4 text-lg"><i class="fas fa-book-open text-neon-cyan mr-3"></i>Core Coursework:</strong>
+                            <div class="flex flex-wrap gap-3 font-medium">
+                                <span class="bg-main/10 px-4 py-2 rounded-md border border-main/15 shadow-sm">Data Structures & Algorithms (DSA)</span>
+                                <span class="bg-main/10 px-4 py-2 rounded-md border border-main/15 shadow-sm">Database Management Systems (DBMS)</span>
+                                <span class="bg-main/10 px-4 py-2 rounded-md border border-main/15 shadow-sm">SQL</span>
+                                <span class="bg-main/10 px-4 py-2 rounded-md border border-main/15 shadow-sm">Operating Systems (OS)</span>
+                                <span class="bg-main/10 px-4 py-2 rounded-md border border-main/15 shadow-sm">Object-Oriented Programming (OOP)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 font-mono text-sm font-bold text-neon-cyan bg-neon-cyan/15 border border-neon-cyan/40 px-5 py-2.5 rounded-md w-max mt-2 md:mt-0 shadow-[0_0_20px_rgba(var(--neon-cyan),0.3)]">
+                        <i class="fas fa-spinner fa-spin text-lg"></i> Expected 2027
+                    </div>
+                </div>
+
+                <div class="glass-premium p-8 md:p-10 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-[6px] border-neon-violet interactive shadow-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <h4 class="text-xl md:text-2xl font-black text-main font-mono">Class XII (CBSE)</h4>
+                        <p class="text-muted mt-2 text-lg md:text-xl font-medium">Science & Mathematics Curriculum</p>
+                    </div>
+                    <div class="flex items-center gap-3 font-mono text-sm font-bold text-main bg-main/5 px-5 py-2.5 rounded-md border border-main/15 w-max shadow-sm">
+                        <i class="fas fa-check text-green-500 text-lg"></i> Completed
+                    </div>
+                </div>
+
+                <div class="glass-premium p-8 md:p-10 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-[6px] border-neon-pink interactive shadow-xl" data-aos="fade-up" data-aos-delay="200">
+                    <div>
+                        <h4 class="text-xl md:text-2xl font-black text-main font-mono">Class X (CBSE)</h4>
+                        <p class="text-muted mt-2 text-lg md:text-xl font-medium">Core Educational Foundations</p>
+                    </div>
+                    <div class="flex items-center gap-3 font-mono text-sm font-bold text-main bg-main/5 px-5 py-2.5 rounded-md border border-main/15 w-max shadow-sm">
+                        <i class="fas fa-check text-green-500 text-lg"></i> Completed
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 md:py-36 relative z-10 border-t border-main/10 bg-void" data-obs-section="INIT">
+        <div class="max-w-5xl mx-auto px-4 md:px-6" data-aos="zoom-in">
+            <div class="glass-premium p-[2px] rounded-[2.5rem] relative overflow-hidden shadow-2xl" data-tilt data-tilt-max="1" data-tilt-glare="true" data-tilt-max-glare="0.1">
+                <div class="glass-content bg-surface/40 backdrop-blur-2xl rounded-[2.4rem] h-full flex flex-col">
+                    <div class="bg-surface/60 px-6 md:px-8 py-5 border-b border-main/10 flex items-center gap-4 rounded-t-[2.4rem]">
+                        <div class="flex gap-2.5">
+                            <div class="w-4 h-4 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.6)]"></div>
+                            <div class="w-4 h-4 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.6)]"></div>
+                            <div class="w-4 h-4 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></div>
+                        </div>
+                        <div class="font-mono text-sm md:text-base text-main opacity-80 flex-1 text-center tracking-[0.2em] truncate font-bold">
+                            sys_admin@ritesh:~ $ ./contact.sh
+                        </div>
+                    </div>
+
+                    <div class="p-8 md:p-16 flex-1">
+                        <h3 class="text-4xl md:text-6xl font-black text-main mb-6 text-center tracking-tight">Initiate <span class="text-gradient-cyan">Handshake</span></h3>
+                        <p class="text-muted text-center text-base md:text-xl font-mono mb-12 md:mb-16 font-medium">> Awaiting secure data payload transmission...</p>
+
+                        <form id="contact-form" class="space-y-8 md:space-y-10">
+                            <div class="grid md:grid-cols-2 gap-8 md:gap-10">
+                                <div class="space-y-4">
+                                    <label class="font-mono text-sm md:text-base text-neon-cyan uppercase tracking-widest font-bold">Target.Name</label>
+                                    <input type="text" id="senderName" class="w-full bg-surface/60 border border-main/15 p-5 md:p-6 rounded-2xl font-mono text-base md:text-lg text-main focus:border-neon-cyan focus:outline-none focus:ring-2 focus:ring-neon-cyan/50 transition-all cursor-none interactive shadow-inner" placeholder="Enter identity" required data-action="FORM_NAME">
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="font-mono text-sm md:text-base text-neon-cyan uppercase tracking-widest font-bold">Target.Email</label>
+                                    <input type="email" id="senderEmail" class="w-full bg-surface/60 border border-main/15 p-5 md:p-6 rounded-2xl font-mono text-base md:text-lg text-main focus:border-neon-cyan focus:outline-none focus:ring-2 focus:ring-neon-cyan/50 transition-all cursor-none interactive shadow-inner" placeholder="Enter routing address" required data-action="FORM_EMAIL">
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="font-mono text-sm md:text-base text-neon-cyan uppercase tracking-widest font-bold">Payload.Data</label>
+                                <textarea id="senderMessage" rows="5" class="w-full bg-surface/60 border border-main/15 p-5 md:p-6 rounded-2xl font-mono text-base md:text-lg text-main focus:border-neon-cyan focus:outline-none focus:ring-2 focus:ring-neon-cyan/50 transition-all resize-none cursor-none interactive shadow-inner" placeholder="Encrypt message here..." required data-action="FORM_MSG"></textarea>
+                            </div>
+                            <div class="pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-8">
+                                <div class="flex gap-5 md:gap-8">
+                                    <a href="https://www.linkedin.com/in/ritesh-kumar-173154355" target="_blank" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl glass-premium magnetic-btn flex items-center justify-center text-main hover:text-neon-cyan hover:border-neon-cyan transition-all cursor-none shadow-xl interactive group" data-action="LINKEDIN">
+                                        <i class="fab fa-linkedin-in text-2xl md:text-3xl glass-content group-hover:scale-110 transition-transform"></i>
+                                    </a>
+                                    <a href="https://github.com/RITESH2127" target="_blank" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl glass-premium magnetic-btn flex items-center justify-center text-main hover:text-main hover:border-main transition-all cursor-none shadow-xl interactive group" data-action="GITHUB">
+                                        <i class="fab fa-github text-2xl md:text-3xl glass-content group-hover:scale-110 transition-transform"></i>
+                                    </a>
+                                </div>
+                                <button type="submit" class="w-full md:w-auto px-10 py-5 md:px-12 md:py-6 bg-neon-cyan magnetic-btn text-inverse font-black font-mono text-base md:text-lg rounded-2xl hover:bg-main hover:text-inverse transition-all shadow-[0_0_40px_rgba(var(--neon-cyan),0.5)] flex items-center justify-center gap-4 cursor-none interactive group" data-action="SUBMIT_PAYLOAD">
+                                    <i class="fas fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i> Execute Send Protocol
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-muted text-sm md:text-base font-mono border-t border-main/10 relative z-10 bg-void font-medium">
+        <p>&copy; 2026 Ritesh Kumar. Architecture Deployed & Operational.</p>
+    </footer>
+
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
